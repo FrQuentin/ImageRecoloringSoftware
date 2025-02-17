@@ -2,20 +2,23 @@ from tkinter import Frame, Canvas, Scrollbar, Menu, StringVar
 
 class RightPanel:
     def __init__(self, root, parent):
-        self.parent = parent  # Instance de UIManager
-        self.root = root  # Widget parent Tkinter (Tk ou Frame)
+        self.parent = parent
+        self.root = root
 
         # Initialisation du panneau droit
         self.setup_right_panel()
 
     def setup_right_panel(self):
+        dark_bg = "#2d2d2d"
+        dark_fg = "#ffffff"
+
         # Conteneur principal pour le panneau droit
-        self.right_frame = Frame(self.root, width=350, bg="white")  # Utiliser self.root ici
+        self.right_frame = Frame(self.root, width=350, bg=dark_bg)
         self.right_frame.pack(side="right", fill="both", padx=20, pady=20)
 
         # Prévisualisation des palettes
-        self.canvas_palette = Canvas(self.right_frame, width=330, height=600, bg="white")
-        self.scrollbar_palette = Scrollbar(self.right_frame, orient="vertical", command=self.canvas_palette.yview)
+        self.canvas_palette = Canvas(self.right_frame, width=330, height=600, bg=dark_bg, highlightbackground="#5c5c5c")
+        self.scrollbar_palette = Scrollbar(self.right_frame, orient="vertical", command=self.canvas_palette.yview, bg=dark_bg)
         self.canvas_palette.configure(yscrollcommand=self.scrollbar_palette.set)
 
         self.scrollbar_palette.pack(side="right", fill="y")
@@ -26,10 +29,10 @@ class RightPanel:
 
         # Menu contextuel pour les actions sur les palettes
         self.selected_palette = StringVar()
-        self.palette_context_menu = Menu(self.root, tearoff=0)  # Utiliser self.root ici
+        self.palette_context_menu = Menu(self.root, tearoff=0, bg=dark_bg, fg=dark_fg)
         self.palette_context_menu.add_command(label="Charger la palette", command=lambda: self.parent.load_palette_by_name(self.selected_palette.get()))
-        self.palette_context_menu.add_command(label="Renommer", command=self.parent.rename_palette)  # Appel via self.parent
-        self.palette_context_menu.add_command(label="[x] Supprimer", command=self.parent.delete_palette)  # Appel via self.parent
+        self.palette_context_menu.add_command(label="Renommer", command=self.parent.rename_palette)
+        self.palette_context_menu.add_command(label="[x] Supprimer", command=self.parent.delete_palette)
 
         self.canvas_palette.bind("<Button-3>", self.show_palette_context_menu)
         self.canvas_palette.bind("<Button-1>", self.hide_palette_context_menu)

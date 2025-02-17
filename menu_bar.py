@@ -3,17 +3,17 @@ from tkinter import Menu, Toplevel, Label
 class MenuBar:
     def __init__(self, root):
         self.root = root
-        self.menu_bar = Menu(root)
+        self.menu_bar = Menu(root, bg="#2d2d2d", fg="#ffffff")
         self.setup_menu()
 
     def setup_menu(self):
         # Créer le menu "Fichier"
-        file_menu = Menu(self.menu_bar, tearoff=0)
+        file_menu = Menu(self.menu_bar, tearoff=0, bg="#2d2d2d", fg="#ffffff")
         file_menu.add_command(label="Quitter", command=self.root.quit)
         self.menu_bar.add_cascade(label="Fichier", menu=file_menu)
 
         # Créer le menu "Info"
-        info_menu = Menu(self.menu_bar, tearoff=0)
+        info_menu = Menu(self.menu_bar, tearoff=0, bg="#2d2d2d", fg="#ffffff")
         info_menu.add_command(label="Instructions", command=self.show_instructions)
         self.menu_bar.add_cascade(label="Info", menu=info_menu)
 

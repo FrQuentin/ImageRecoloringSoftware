@@ -6,8 +6,8 @@ from file_utils import load_image
 
 class LeftPanel:
     def __init__(self, root, parent):
-        self.parent = parent  # Instance de UIManager
-        self.root = root  # Widget parent Tkinter (Tk ou Frame)
+        self.parent = parent
+        self.root = root
         self.input_image = None
         self.color_mapping = {}
 
@@ -15,53 +15,56 @@ class LeftPanel:
         self.setup_left_panel()
 
     def setup_left_panel(self):
+        dark_bg = "#2d2d2d"
+        dark_fg = "#ffffff"
+
         # Conteneur principal pour le panneau gauche
-        self.left_frame = Frame(self.root, width=850, bg="white")  # Utiliser self.root ici
+        self.left_frame = Frame(self.root, width=850, bg=dark_bg)
         self.left_frame.pack(side="left", fill="both", padx=20, pady=20)
 
         # Étiquette pour afficher le fichier sélectionné
-        self.label_image = Label(self.left_frame, text="Aucune image sélectionnée", wraplength=400)
+        self.label_image = Label(self.left_frame, text="Aucune image sélectionnée", wraplength=400, bg=dark_bg, fg=dark_fg)
         self.label_image.pack(pady=10)
 
         # Bouton pour sélectionner une image
-        self.button_load = Button(self.left_frame, text="Sélectionner une image", command=self.select_image)
+        self.button_load = Button(self.left_frame, text="Sélectionner une image", command=self.select_image, bg="#4a4a4a", fg=dark_fg)
         self.button_load.pack(pady=10)
 
         # Prévisualisation de l'image
-        self.label_image_preview = Label(self.left_frame, bg="white", width=200, height=200)
+        self.label_image_preview = Label(self.left_frame, bg=dark_bg, width=200, height=200)
         self.label_image_preview.pack(pady=10)
 
         # Champs pour ajouter une correspondance de couleur
-        Label(self.left_frame, text="Couleur à remplacer (ex: #cd8580)").pack()
-        self.entry_old_color = Entry(self.left_frame, width=20)
+        Label(self.left_frame, text="Couleur à remplacer (ex: #cd8580)", bg=dark_bg, fg=dark_fg).pack()
+        self.entry_old_color = Entry(self.left_frame, width=20, bg=dark_bg, fg=dark_fg, insertbackground=dark_fg)
         self.entry_old_color.pack()
 
-        Label(self.left_frame, text="Nouvelle couleur (ex: #776466)").pack()
-        self.entry_new_color = Entry(self.left_frame, width=20)
+        Label(self.left_frame, text="Nouvelle couleur (ex: #776466)", bg=dark_bg, fg=dark_fg).pack()
+        self.entry_new_color = Entry(self.left_frame, width=20, bg=dark_bg, fg=dark_fg, insertbackground=dark_fg)
         self.entry_new_color.pack()
 
-        self.button_add_color = Button(self.left_frame, text="[+] Ajouter une couleur", command=self.add_color, state="disabled")
+        self.button_add_color = Button(self.left_frame, text="[+] Ajouter une couleur", command=self.add_color, state="disabled", bg="#4a4a4a", fg=dark_fg)
         self.button_add_color.pack(pady=10)
 
         # Widget Text pour afficher les correspondances de couleurs avec prévisualisation
-        self.text_colors = Text(self.left_frame, width=60, height=10, wrap="none")
+        self.text_colors = Text(self.left_frame, width=60, height=10, wrap="none", bg=dark_bg, fg=dark_fg, insertbackground=dark_fg)
         self.text_colors.pack(pady=10)
 
         # Gestion des palettes
-        Label(self.left_frame, text="Nom de la palette").pack()
-        self.entry_palette_name = Entry(self.left_frame, width=20)
+        Label(self.left_frame, text="Nom de la palette", bg=dark_bg, fg=dark_fg).pack()
+        self.entry_palette_name = Entry(self.left_frame, width=20, bg=dark_bg, fg=dark_fg, insertbackground=dark_fg)
         self.entry_palette_name.pack()
 
-        self.button_save_palette = Button(self.left_frame, text="Enregistrer la palette", command=self.save_palette)
+        self.button_save_palette = Button(self.left_frame, text="Enregistrer la palette", command=self.save_palette, bg="#4a4a4a", fg=dark_fg)
         self.button_save_palette.pack(pady=5)
 
-        self.button_load_palette = Button(self.left_frame, text="Charger la palette", command=lambda: self.load_palette_by_name(self.entry_palette_name.get().strip()))
+        self.button_load_palette = Button(self.left_frame, text="Charger la palette", command=lambda: self.load_palette_by_name(self.entry_palette_name.get().strip()), bg="#4a4a4a", fg=dark_fg)
         self.button_load_palette.pack(pady=5)
 
         # Bouton pour appliquer les changements de couleurs
-        self.frame_buttons = Frame(self.left_frame)
+        self.frame_buttons = Frame(self.left_frame, bg=dark_bg)
         self.frame_buttons.pack(pady=20)
-        self.button_apply = Button(self.frame_buttons, text="Appliquer les changements de couleurs", command=self.apply_changes, state="disabled")
+        self.button_apply = Button(self.frame_buttons, text="Appliquer les changements de couleurs", command=self.apply_changes, state="disabled", bg="#4a4a4a", fg=dark_fg)
         self.button_apply.pack()
 
     def select_image(self):
