@@ -48,19 +48,33 @@ class UIManager:
         try:
             image = Image.open(image_path).convert("RGBA")
             pixels = image.load()
-
             width, height = image.size
+
+            # Paramètre de tolérance (ajustable de 0 à 255)
+            tolerance = 30  # Augmentez si trop strict, diminuez si trop permissif
+
+            def is_similar(color1, color2, tol):
+                """Vérifie si deux couleurs RGB sont similaires selon la tolérance"""
+                r1, g1, b1 = color1
+                r2, g2, b2 = color2
+                return (abs(r1 - r2) <= tol and
+                        abs(g1 - g2) <= tol and
+                        abs(b1 - b2) <= tol)
 
             for x in range(width):
                 for y in range(height):
                     r, g, b, a = pixels[x, y]
 
+                    # Ignorer les pixels transparents
                     if a == 0:
                         continue
 
-                    if (r, g, b) in color_mapping:
-                        new_r, new_g, new_b = color_mapping[(r, g, b)]
-                        pixels[x, y] = (new_r, new_g, new_b, a)
+                    # Chercher une correspondance avec tolérance
+                    for original_color, new_color in color_mapping.items():
+                        if is_similar((r, g, b), original_color, tolerance):
+                            new_r, new_g, new_b = new_color
+                            pixels[x, y] = (new_r, new_g, new_b, a)
+                            break
 
             base_name, ext = os.path.splitext(image_path)
             output_image = f"{base_name}_recolored{ext}"
